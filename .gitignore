@@ -1,0 +1,4 @@
+fire*.h5
+*.log
+venv/
+*.h5
