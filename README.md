@@ -15,3 +15,13 @@ July 18, 2022
 Use streamlit to build firedetection APP.
 Tested with browser, upload to github and record video
 
+# Build and deploy to cloudurn
+
+Command to build the application. PLease remeber to change the project name and application name
+```
+gcloud builds submit --tag gcr.io/strealitdemo/streamlit-fire  --project=strealitdemo
+```
+
+Command to deploy the application
+```
+gcloud run deploy --image gcr.io/capstone2022-358721/streamlit-fire --platform managed  --project=capstone2022-358721 --allow-unauthenticated
