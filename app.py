@@ -17,6 +17,12 @@ classifier = model_from_json(model_json)
 classifier.load_weights("weights.h5")
 
 
+
+# try:
+#     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+# except Exception:
+#     st.write("Error loading cascade classifiers")
+
 RTC_CONFIGURATION = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
 def img_to_array(img, data_format='channels_last', dtype='float32'):
@@ -49,22 +55,21 @@ def img_to_array(img, data_format='channels_last', dtype='float32'):
         raise ValueError('Unsupported image shape: %s' % (x.shape,))
     return x
 
-def main():
-    st.title("Capstone-2 Project (Fire Detection)")
-    activities = ["Home", "Webcam Fire Detection", "Fire Detection On Picture"]
-    choice = st.sidebar.selectbox("Select Activity", activities)
+st.title("Capstone-2 Project (Fire Detection)")
+activities = ["Home", "Webcam Fire Detection", "Fire Detection On Picture"]
+choice = st.sidebar.selectbox("Select Activity", activities)
 
-    firecutoff = st.sidebar.slider("Input Fire Detection Sensitivity",min_value=0.00,
+firecutoff = st.sidebar.slider("Input Fire Detection Sensitivity",min_value=0.50,
         max_value=1.00,
-        value=0.5,
+        value=0.6,
         step=0.01,
     )
 
+
+
+
+def main():
     
-
-
-    # st.sidebar.markdown(
-    #     
     if choice == "Home":
         html_temp_home1 = """<div style="background-color:#6D7B8D;padding:10px">
                                             <h4 style="color:white;text-align:center;">
@@ -130,6 +135,7 @@ def main():
         pass
 
 
+
 class firevideo(VideoTransformerBase):
     def transform(self, frame):
         img = frame.to_ndarray(format="bgr24")
@@ -156,7 +162,9 @@ class firevideo(VideoTransformerBase):
             r1 = round(max(prediction[0]),2)
             output2 = str(r1) 
 
-        
+            
+
+
             if maxindex == 0 and  max(prediction[0]) > firecutoff:
             # if maxindex == 0:    
                 output1 = "fire" + " "+"at 2nd floor"   
@@ -179,3 +187,5 @@ class firevideo(VideoTransformerBase):
 
 if __name__ == "__main__":
     main()
+
+ 
